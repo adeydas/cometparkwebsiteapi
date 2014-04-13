@@ -19,11 +19,11 @@ public class BaseController {
 	
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String welcomeM(ModelMap model) {
-		List<List<String>> retDb = objDatabaseConnect.runSqlQuery("select lat,lon,lotname,numid from tbl_parkinglots");
+		List<List<String>> retDb = objDatabaseConnect.runSqlQuery("select lat,lon,lotname,numid,lotid from tbl_parkinglots");
 		String ret = "";
 		if (retDb.size() > 0) {
 			for (int i=0; i<retDb.size(); i++) {
-				ret += "['" + retDb.get(i).get(2) + "', " + retDb.get(i).get(0) + ", " + retDb.get(i).get(1) + ", " + retDb.get(i).get(3) + "],";
+				ret += "['" + retDb.get(i).get(2) + "', " + retDb.get(i).get(0) + ", " + retDb.get(i).get(1) + ", " + retDb.get(i).get(3) + ", '" + retDb.get(i).get(4) +  "'],";
 			}
 			ret = ret.substring(0, ret.length()-1);
 			model.addAttribute("latlonpairs", ret);

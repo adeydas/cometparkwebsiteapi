@@ -3,42 +3,59 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html> 
-<head> 
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-  <title>Comet Park - Choose parking lot</title> 
-  <script src="http://maps.google.com/maps/api/js?sensor=false" 
-          type="text/javascript"></script>
-</head> 
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Comet Park - Choose parking lot</title>
+<script src="http://maps.google.com/maps/api/js?sensor=false"
+	type="text/javascript"></script>
+</head>
 <body>
-<script type="text/javascript">
-	function checkAndRun(f) {
-		var t = document.getElementById("selector").value;
-		if (t == "--Select from map--") {
-			alert("Select a lot");
-		} else {
-			window.location = "searchspaces?lot=" + t + "&fn=" + f;
-		}
-	}
-</script>
-<form>
- <p>Select Parking Lot: <input name="selector" id="selector" type="text" value="--Select from map--" /> <br />
- <input type="button" value="View vacant spots" onClick="return checkAndRun('v');" />
- <input type="button" value="View occupied spots" onClick="return checkAndRun('o');" />
- </p>
- </form>
-  <div id="map" style="position: absolute; margin-top: 20px; margin-left: 10px; width: 500px; height: 500px;"></div>
 
-  <script type="text/javascript">
+	
+	<div id="map"
+		style="width: 900px; height: 1700px;"></div>
+
+	<script type="text/javascript">
+	
+	//get geo location
+	var options = {
+				  enableHighAccuracy: true,
+				  timeout: 5000,
+				  maximumAge: 0
+				};
+		var crd;
+		function success(pos) {
+			  crd = pos.coords;
+
+			  console.log('Your current position is:');
+			  console.log('Latitude : ' + crd.latitude);
+			  console.log('Longitude: ' + crd.longitude);
+			  console.log('More or less ' + crd.accuracy + ' meters.');
+			  
+			  map.setCenter(crd.latitude, crd.longitude);
+			};
+
+			function error(err) {
+			  console.warn('ERROR(' + err.code + '): ' + err.message);
+			  
+			};
+
+  navigator.geolocation.getCurrentPosition(success, error, options);
+	
+	
     var locations = [
+                   
       ${latlonpairs}
     ];
-
+//32.985393, -96.745719
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
+      zoom: 17,
       center: new google.maps.LatLng(32.985393, -96.745719),
       mapTypeId: google.maps.MapTypeId.SATELLITE
     });
+    
+
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -52,7 +69,8 @@
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          document.getElementById("selector").value=locations[i][0];
+       
+          window.location = "searchspaces?lot=" + locations[i][4];
         }
       })(marker, i));
     }
