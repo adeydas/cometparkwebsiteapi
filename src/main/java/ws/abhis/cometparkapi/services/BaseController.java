@@ -23,28 +23,18 @@ public class BaseController {
 	@RequestMapping(value = "/searchspaces/{lotId}/markers", method = RequestMethod.GET)
 	public String getAllMarkers(ModelMap model, @PathVariable String lotId) {
 		List<List<String>> getMarkers = new ArrayList<>();
-		getMarkers = objDatabaseConnect.runSqlQuery("select id, lat, lon, leveltype, imageloc from tbl_parkingspaces where lotid='" + lotId + "'");
+		getMarkers = objDatabaseConnect.runSqlQuery("select imageloc from tbl_parkingspaces where lotid='" + lotId + "'");
 		String ret = "";
 		
 		if (getMarkers.size() > 0) {
 			for (int i=0; i<getMarkers.size(); i++) {
-				String lT = getMarkers.get(i).get(3);
-				String vDesc = "";
-				if (lT.equals("ge")) {
-					vDesc = "Green parking permit.";
-				} else if (lT.equals("pu")) {
-					vDesc = "Purple parking permit.";
-				} else if (lT.equals("go")) {
-					vDesc = "Gold parking permit.";
-				} else if (lT.equals("or")) {
-					vDesc = "Orange parking permit.";
-				}
 				
 				
-				ret += "['" + getMarkers.get(i).get(0) + "', " + getMarkers.get(i).get(1) + ", " + getMarkers.get(i).get(2) + ", '" + lT + "', '" + vDesc + "', '" + getMarkers.get(i).get(4) + "'],";
+				ret += getMarkers.get(i).get(0) + ",";
 			}
 		}
 			ret = ret.substring(0, ret.length()-1);
+			
 			model.addAttribute("resp", ret);
 			
 			return "vanilla";

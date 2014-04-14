@@ -38,6 +38,19 @@ public class ReceiveController {
 			} else {
 				retSel = objDatabaseConnect
 						.runSqlQuery("update tbl_SensorStatus set status='"+status+"' where sensorid='"+id+"'");
+				
+				retSel = objDatabaseConnect.runSqlQuery("select imageloc from tbl_parkingspaces where id=" + id);
+				String img = retSel.get(0).get(0);
+				String[] imgs = img.split("-");
+				
+				String r = "";
+				if (status.equals("true")) {
+					r = imgs[0] + "-y.png";
+				} else {
+					r = imgs[0] + "-n.png";
+				}
+				
+				retSel = objDatabaseConnect.runSqlQuery("update tbl_parkingspaces set imageloc='" + r + "' where id=" + id);
 				if (retSel == null) {
 					model.addAttribute("status", "Internal error");
 				} else {
