@@ -50,9 +50,9 @@
     ];
 //32.985393, -96.745719
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 17,
-      center: new google.maps.LatLng(32.985393, -96.745719),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      zoom: 19,
+      center: new google.maps.LatLng(${centroidlat}, ${centroidlon}),
+      mapTypeId: google.maps.MapTypeId.HYBRID
     });
     
 
@@ -64,13 +64,15 @@
     for (i = 0; i < locations.length; i++) {  
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-        map: map
+        map: map,
+        title: locations[i][4],
+        icon: "http://abhis.ws/misc/imgs/" + locations[i][5]
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-       
-          window.location = "searchspaces/" + locations[i][4] + "/all";
+        	 infowindow.setContent(locations[i][4]);
+             infowindow.open(map, marker);
         }
       })(marker, i));
     }
