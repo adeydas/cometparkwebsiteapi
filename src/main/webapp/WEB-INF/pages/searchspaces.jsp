@@ -9,52 +9,53 @@
 <title>Comet Park - Choose parking lot</title>
 <script src="http://maps.google.com/maps/api/js?sensor=false"
 	type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-2.1.0.min.js" type="text/javascript"></script>
 </head>
 <body>
 
+	<input type="hidden" name="lotnameholder" id="lotnameholder" value="${lotnameholder }" />
 	
 	<div id="map"
 		style="width: 900px; height: 1700px;"></div>
 
 	<script type="text/javascript">
 	
-	//get geo location
-	var options = {
-				  enableHighAccuracy: true,
-				  timeout: 5000,
-				  maximumAge: 0
-				};
-		var crd;
-		function success(pos) {
-			  crd = pos.coords;
-
-			  console.log('Your current position is:');
-			  console.log('Latitude : ' + crd.latitude);
-			  console.log('Longitude: ' + crd.longitude);
-			  console.log('More or less ' + crd.accuracy + ' meters.');
-			  
-			  map.setCenter(crd.latitude, crd.longitude);
-			};
-
-			function error(err) {
-			  console.warn('ERROR(' + err.code + '): ' + err.message);
-			  
-			};
-
-  navigator.geolocation.getCurrentPosition(success, error, options);
 	
+	
+  
+//32.985393, -96.745719
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 19,
+    center: new google.maps.LatLng(${centroidlat}, ${centroidlon}),
+    mapTypeId: google.maps.MapTypeId.HYBRID
+  });
+  
+	var lotnameid = document.getElementById('lotnameholder').value;
+	
+	$(document).ready(function() {
+		  // run the first time; all subsequent calls will take care of themselves
+		  setTimeout(executeQuery, 5000);
+		});
+	function executeQuery() {
+		  $.ajax({
+		    url: 'http://abhis.ws:8080/cometparkapi/searchspaces/' + lotnameid + '/markers',
+		    success: function(data) {
+		      // do something with the return value here if you like
+		      alert(data);
+		    }
+		  });
+		  setTimeout(executeQuery, 5000); // you could choose not to continue on failure...
+		}
+
+	
+	
+ 
 	
     var locations = [
                    
       ${latlonpairs}
     ];
-//32.985393, -96.745719
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 19,
-      center: new google.maps.LatLng(${centroidlat}, ${centroidlon}),
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    });
-    
+
 
 
     var infowindow = new google.maps.InfoWindow();

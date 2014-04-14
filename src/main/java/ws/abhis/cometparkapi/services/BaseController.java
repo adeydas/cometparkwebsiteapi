@@ -52,6 +52,9 @@ public class BaseController {
 
 	@RequestMapping(value = "/searchspaces/{lotId}/all", method = RequestMethod.GET)
 	public String searchSpaces(ModelMap model, @PathVariable String lotId) {
+		
+		model.addAttribute("lotnameholder", lotId);
+		
 		// Get centroid lat lon
 		List<List<String>> centroidLatLon = new ArrayList<>();
 		centroidLatLon = objDatabaseConnect
