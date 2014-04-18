@@ -47,7 +47,7 @@
 				<configuration>
 					<url>http://abhis.ws:8080/manager/text</url>
 					<server>abhisws</server>
-					<path>/${project.artifactId}</path>
+					<path>/${project.artifactId}-bindu</path>
 				</configuration>
 			</plugin>
 		</plugins>
