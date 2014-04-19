@@ -40,7 +40,7 @@
   
   
   <p>
-  <b>Parking Spot Number:</b>
+  <b>Parking Lot Number:</b>
   <select name="pnumber" id="pnumber" >
   	${rets }
   </select>
