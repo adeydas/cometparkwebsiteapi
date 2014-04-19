@@ -55,7 +55,7 @@
   </div>
   <p>
   <div align="center">
-  <form action="http://abhis.ws:8080/cometparkapi/admin/welcome">
+  <form action="http://abhis.ws:8080/cometparkapi/admin/logincheck">
   <input type="submit" value="Management_Homepage">
   </form>
   </div>
